@@ -23,6 +23,8 @@ from utils.logger import setup_logger
 
 
 def train(cfg):
+    use_gpu = True if cfg.MODEL.DEVICE == "cuda" else False
+
     # prepare dataset
     train_loader, val_loader, num_query, num_classes = make_data_loader(cfg)
 
@@ -69,7 +71,7 @@ def train(cfg):
         )
     elif cfg.MODEL.IF_WITH_CENTER == 'yes':
         print('Train with center loss, the loss type is', cfg.MODEL.METRIC_LOSS_TYPE)
-        loss_func, center_criterion = make_loss_with_center(cfg, num_classes)  # modified by gu
+        loss_func, center_criterion = make_loss_with_center(cfg, num_classes, use_gpu=use_gpu)  # modified by gu
         optimizer, optimizer_center = make_optimizer_with_center(cfg, model, center_criterion)
         # scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
         #                               cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD)
