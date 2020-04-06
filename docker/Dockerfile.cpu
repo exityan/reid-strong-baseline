@@ -1,0 +1,9 @@
+FROM wicrep/pytorch:1.4-cpu
+
+RUN pip install pytorch-ignite==0.1.2
+
+RUN python -c 'from torchvision import models; models.resnet50(pretrained=True)'
+
+WORKDIR /workspace/reid-strong-baseline
+COPY . .
+RUN python setup.py develop

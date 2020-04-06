@@ -1,0 +1,11 @@
+FROM pytorch/pytorch:1.4-cuda10.1-cudnn7-runtime
+
+RUN apt-get update && apt-get install -y --no-install-recommends git gcc g++ wget libglib2.0-0 libsm6 libgtk2.0-dev
+
+RUN pip install opencv-python pytorch-ignite==0.1.2 yacs
+
+RUN python -c 'from torchvision import models; models.resnet50(pretrained=True)'
+
+WORKDIR /workspace/reid-strong-baseline
+COPY . .
+RUN python setup.py develop
