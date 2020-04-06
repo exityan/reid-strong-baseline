@@ -1,0 +1,4 @@
+# [tool.black]
+
+[tool.isort]
+skip_glob = "**/*.py"
