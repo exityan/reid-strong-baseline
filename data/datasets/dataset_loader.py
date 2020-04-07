@@ -28,9 +28,10 @@ def read_image(img_path):
 class ImageDataset(Dataset):
     """Image Person ReID Dataset"""
 
-    def __init__(self, dataset, transform=None):
+    def __init__(self, dataset, transform=None, random_replace_background=None):
         self.dataset = dataset
         self.transform = transform
+        self.random_replace_background = random_replace_background
 
     def __len__(self):
         return len(self.dataset)
@@ -38,6 +39,10 @@ class ImageDataset(Dataset):
     def __getitem__(self, index):
         img_path, pid, camid = self.dataset[index]
         img = read_image(img_path)
+
+        if self.random_replace_background is not None:
+            img_name = osp.basename(img_path)
+            img = self.random_replace_background(img, img_name)
 
         if self.transform is not None:
             img = self.transform(img)

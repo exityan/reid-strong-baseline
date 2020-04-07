@@ -10,9 +10,11 @@ from .collate_batch import train_collate_fn, val_collate_fn
 from .datasets import init_dataset, ImageDataset
 from .samplers import RandomIdentitySampler, RandomIdentitySampler_alignedreid  # New add by gu
 from .transforms import build_transforms
+from .ext import build_random_replace_background
 
 
 def make_data_loader(cfg):
+    random_replace_background = build_random_replace_background(cfg)
     train_transforms = build_transforms(cfg, is_train=True)
     val_transforms = build_transforms(cfg, is_train=False)
     num_workers = cfg.DATALOADER.NUM_WORKERS
@@ -23,7 +25,7 @@ def make_data_loader(cfg):
         dataset = init_dataset(cfg.DATASETS.NAMES, root=cfg.DATASETS.ROOT_DIR)
 
     num_classes = dataset.num_train_pids
-    train_set = ImageDataset(dataset.train, train_transforms)
+    train_set = ImageDataset(dataset.train, train_transforms, random_replace_background)
     if cfg.DATALOADER.SAMPLER == 'softmax':
         train_loader = DataLoader(
             train_set, batch_size=cfg.SOLVER.IMS_PER_BATCH, shuffle=True, num_workers=num_workers,
@@ -37,7 +39,7 @@ def make_data_loader(cfg):
             num_workers=num_workers, collate_fn=train_collate_fn
         )
 
-    val_set = ImageDataset(dataset.query + dataset.gallery, val_transforms)
+    val_set = ImageDataset(dataset.query + dataset.gallery, val_transforms, random_replace_background)
     val_loader = DataLoader(
         val_set, batch_size=cfg.TEST.IMS_PER_BATCH, shuffle=False, num_workers=num_workers,
         collate_fn=val_collate_fn

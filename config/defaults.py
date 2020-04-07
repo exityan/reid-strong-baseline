@@ -72,6 +72,9 @@ _C.DATASETS.NAMES = ('market1501')
 # Root directory where datasets should be used (and downloaded if not found)
 _C.DATASETS.ROOT_DIR = ('./data')
 
+_C.DATASETS.MASKS_PATH = ""
+_C.DATASETS.BACKGROUND_REPLACE_PROBABILITY = 0.5
+
 # -----------------------------------------------------------------------------
 # DataLoader
 # -----------------------------------------------------------------------------
