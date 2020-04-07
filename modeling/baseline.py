@@ -173,7 +173,7 @@ class Baseline(nn.Module):
 
     def load_param(self, trained_path):
         map_location = None if torch.cuda.is_available() else 'cpu'
-        param_dict = torch.load(trained_path, map_location=map_location)
+        param_dict = torch.load(trained_path, map_location=map_location).state_dict()
         for i in param_dict:
             if 'classifier' in i:
                 continue

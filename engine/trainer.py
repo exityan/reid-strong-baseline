@@ -73,6 +73,10 @@ def create_supervised_trainer_with_center(model, center_criterion, optimizer, op
         if torch.cuda.device_count() > 1:
             model = nn.DataParallel(model)
         model.to(device)
+        for state in optimizer.state.values():
+            for k, v in state.items():
+                if isinstance(v, torch.Tensor):
+                    state[k] = v.cuda()
 
     def _update(engine, batch):
         model.train()
