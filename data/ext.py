@@ -10,6 +10,9 @@ import cv2
 
 
 def build_random_replace_background(cfg):
+    masks_path = cfg.DATASETS.MASKS_PATH
+    if masks_path is None or masks_path == "":
+        return None
     masks = load_masks(cfg.DATASETS.MASKS_PATH)
     return RandomReplaceBackground(masks, probability=cfg.DATASETS.BACKGROUND_REPLACE_PROBABILITY)
 
