@@ -36,8 +36,8 @@ class CompositeDataset(BaseImageDataset):
                 pid_container.add((dataset.dataset_dir, data[1]))
                 camid_container.add((dataset.dataset_dir, data[2]))
 
-        pid2label = {pid: label for label, pid in enumerate(pid_container)}
-        camid2label = {camid: label for label, camid in enumerate(camid_container)}
+        pid2label = {pid: label for label, pid in enumerate(sorted(pid_container))}
+        camid2label = {camid: label for label, camid in enumerate(sorted(camid_container))}
 
         for dataset in datasets:
             for data in dataset.train:
@@ -56,8 +56,8 @@ class CompositeDataset(BaseImageDataset):
                 pid_container.add((dataset.dataset_dir, data[1]))
                 camid_container.add((dataset.dataset_dir, data[2]))
 
-        pid2label = {pid: label for label, pid in enumerate(pid_container)}
-        camid2label = {camid: label for label, camid in enumerate(camid_container)}
+        pid2label = {pid: label for label, pid in enumerate(sorted(pid_container))}
+        camid2label = {camid: label for label, camid in enumerate(sorted(camid_container))}
 
         for dataset in datasets:
             for data in dataset.query:
