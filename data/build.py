@@ -38,7 +38,7 @@ def make_data_loader(cfg):
             num_workers=num_workers, collate_fn=train_collate_fn
         )
 
-    val_set = ImageDataset(dataset.query + dataset.gallery, val_transforms, random_replace_background)
+    val_set = ImageDataset(dataset.query + dataset.gallery, val_transforms)
     val_loader = DataLoader(
         val_set, batch_size=cfg.TEST.IMS_PER_BATCH, shuffle=False, num_workers=num_workers,
         collate_fn=val_collate_fn
